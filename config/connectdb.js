@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const connection = async (MONGODB_URL) =>{
+const connectDB = async (MONGODB_URL) =>{
     try{
         const DB_OPTIONS = {
             dbName: "jwtpractice"
@@ -12,5 +12,5 @@ const connection = async (MONGODB_URL) =>{
     }
 }
 
-export default connection;
+export default connectDB;
 

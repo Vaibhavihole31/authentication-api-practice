@@ -82,8 +82,11 @@ class UserController {
             }else{
                const salt = await bcrypt.genSalt(10)
                const hashPassword = await bcrypt.hash(password, salt)
+            //    console.log(req.user._id);
+            await User.findByIdAndUpdate(req.user._id, { $set: {
+                password: hashPassword }})
 
-               
+               res.send({"status" : "feailed", "message" : "password change successfully"})
             }
         }else{
             res.send({"status": "failed", "message": "All fields are required "})

@@ -72,6 +72,23 @@ class UserController {
             res.status(201).send({ "status": "false", "message": "Unable to Login" })
         }
     }
+
+    static changeUserPassword = async(req, res)=> {
+        const { password, password_confirmation } = req.body
+
+        if(password && password_confirmation){
+            if(password !== password_confirmation){
+                res.send({"status": "failed", "message": "password and password_confirmation does not match "})
+            }else{
+               const salt = await bcrypt.genSalt(10)
+               const hashPassword = await bcrypt.hash(password, salt)
+
+               
+            }
+        }else{
+            res.send({"status": "failed", "message": "All fields are required "})
+        }
+    }
 }
 
 

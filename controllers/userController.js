@@ -22,7 +22,10 @@ class UserController {
                             tc: tc
                         })
                         await newUser.save()
-                        res.send({ "status": "success", data: newUser, "message": "Registration Successfully !!✅" })
+                        const saved_user = await User.findOne({ email: email })
+                        const token = jwt.sign({ userID: saved_user._id },
+                            process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+                        res.send({ "status": "success", data: newUser, "message": "Registration Successfully !!✅" , "token": token})
                     }
                     catch (err) {
                         console.log(err.message);

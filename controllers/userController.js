@@ -73,24 +73,31 @@ class UserController {
         }
     }
 
-    static changeUserPassword = async(req, res)=> {
+    static changeUserPassword = async (req, res) => {
         const { password, password_confirmation } = req.body
 
-        if(password && password_confirmation){
-            if(password !== password_confirmation){
-                res.send({"status": "failed", "message": "password and password_confirmation does not match "})
-            }else{
-               const salt = await bcrypt.genSalt(10)
-               const hashPassword = await bcrypt.hash(password, salt)
-            //    console.log(req.user._id);
-            await User.findByIdAndUpdate(req.user._id, { $set: {
-                password: hashPassword }})
+        if (password && password_confirmation) {
+            if (password !== password_confirmation) {
+                res.send({ "status": "failed", "message": "password and password_confirmation does not match " })
+            } else {
+                const salt = await bcrypt.genSalt(10)
+                const hashPassword = await bcrypt.hash(password, salt)
+                //    console.log(req.user._id);
+                await User.findByIdAndUpdate(req.user._id, {
+                    $set: {
+                        password: hashPassword
+                    }
+                })
 
-               res.send({"status" : "feailed", "message" : "password change successfully"})
+                res.send({ "status": "feailed", "message": "password change successfully" })
             }
-        }else{
-            res.send({"status": "failed", "message": "All fields are required "})
+        } else {
+            res.send({ "status": "failed", "message": "All fields are required " })
         }
+    }
+
+    static loggedUser = async(req, res) =>{
+        res.send({"user": req.user})
     }
 }
 

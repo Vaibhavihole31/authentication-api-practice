@@ -25,7 +25,7 @@ class UserController {
                         const saved_user = await User.findOne({ email: email })
                         const token = jwt.sign({ userID: saved_user._id },
                             process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-                        res.send({ "status": "success", data: newUser, "message": "Registration Successfully !!✅" , "token": token})
+                        res.send({ "status": "success", data: newUser, "message": "Registration Successfully !!✅", "token": token })
                     }
                     catch (err) {
                         console.log(err.message);
@@ -52,7 +52,10 @@ class UserController {
                 if (user != null) {
                     const isMatch = await bcrypt.compare(password, user.password)
                     if ((user.email === email) && isMatch) {
-                        res.send({ "status": "success", "message": "Login Successfully !!✅" })
+                        const token = jwt.sign({ userID: user._id },
+                            process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
+
+                        res.send({ "status": "success", "message": "Login Successfully !!✅", "token": token })
                     } else {
                         res.status(201).send({ "status": "false", "message": "email or password is not valid " })
                     }
